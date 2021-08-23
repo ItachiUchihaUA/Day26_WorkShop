@@ -74,7 +74,6 @@ public class HotelReservationSystem {
 				}
 			}
 		}
-		
 		System.out.println("Cheapest Hotel: "+hotelName +"\tPrice: $" +lowestRate);
 	}
 
