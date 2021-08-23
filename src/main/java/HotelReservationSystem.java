@@ -42,10 +42,10 @@ public class HotelReservationSystem {
 				Date date = format.parse(sc.next());
 				c.setTime(date);
 				Integer dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-				System.out.println(dayOfWeek);	
 				days.add(dayOfWeek);
 			} catch (Exception e) {
-				System.out.println(e.getMessage());
+				System.err.println(e.getMessage());
+				addDate();
 			}
 			System.out.println("Want to add more date?\n Enter 1 for Yes or 2 for No!: ");
 			flag1 = sc.nextInt();
@@ -58,41 +58,24 @@ public class HotelReservationSystem {
 		for (int i = 0; i < days.size(); i++) {
 			if (days.get(i) == 1 || days.get(i) == 7) {
 				if (customertype == 1) {
-					for (int j = 0; j < hotelList.size(); j++) {
-						if (lowestRate > hotelList.get(j).getWeekendRegularRate()) {
-							lowestRate = hotelList.get(j).getWeekendRegularRate();
-							hotelName = hotelList.get(j).getName();
-						}
-					}
+					hotelList.stream().filter(n -> n.getWeekendRegularRate()<lowestRate).forEach(n -> {lowestRate= n.getWeekendRegularRate();
+					hotelName = n.getName();});
 				} else {
-					for (int j = 0; j < hotelList.size(); j++) {
-						if (lowestRate > hotelList.get(j).getWeekendRewardedRate()) {
-							lowestRate = hotelList.get(j).getWeekendRewardedRate();
-							hotelName = hotelList.get(j).getName();
-						}
-					}
+					hotelList.stream().filter(n -> n.getWeekendRewardedRate()<lowestRate).forEach(n -> {lowestRate= n.getWeekendRewardedRate();
+					hotelName = n.getName();});
 				}
 			} else {
 				if (customertype == 1) {
-					for (int j = 0; j < hotelList.size(); j++) {
-						if (lowestRate > hotelList.get(j).getWeekdayRegularRate()) {
-							lowestRate = hotelList.get(j).getWeekdayRegularRate();
-							hotelName = hotelList.get(j).getName();
-						}
-					}
+					hotelList.stream().filter(n -> n.getWeekdayRegularRate()<lowestRate).forEach(n -> {lowestRate= n.getWeekdayRegularRate();
+					hotelName = n.getName();});
 				} else {
-					for (int j = 0; j < hotelList.size(); j++) {
-						System.out.println("+");
-						if (lowestRate > hotelList.get(j).getWeekdayRewardedRate()) {
-							lowestRate = hotelList.get(j).getWeekdayRewardedRate();
-							hotelName = hotelList.get(j).getName();
-						}
-					}
+					hotelList.stream().filter(n -> n.getWeekdayRewardedRate()<lowestRate).forEach(n -> {lowestRate= n.getWeekdayRewardedRate();
+					hotelName = n.getName();});
 				}
 			}
 		}
 		
-		System.out.println("Hotel: "+hotelName +"\t Price: " +lowestRate);
+		System.out.println("Cheapest Hotel: "+hotelName +"\tPrice: $" +lowestRate);
 	}
 
 }
